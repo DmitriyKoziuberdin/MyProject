@@ -59,11 +59,11 @@ namespace SuperHeroes.Application.Services
             Person personUpdateResponse = await _personRepository.GetPersonById(personUpdate.Id);
             return new PersonResponse
             {
-                PersonId = personUpdateModel.PersonId,
-                FirstName = personUpdateModel.FirstName,
-                LastName = personUpdateModel.LastName,
-                SuperHeroName = personUpdateModel.SuperHeroName,
-                Age = personUpdateModel.Age
+                PersonId = personUpdateResponse.Id,
+                FirstName = personUpdateResponse.FirstName,
+                LastName = personUpdateResponse.LastName,
+                SuperHeroName = personUpdateResponse.SuperHeroName,
+                Age = personUpdateResponse.Age
             };
         }
 
