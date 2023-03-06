@@ -11,9 +11,11 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         //Configure service
-        builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+        builder.Services.AddScoped<CategoryRepository>();
+        builder.Services.AddScoped<ICategoryRepository, CachedCategoryRepository>();
         builder.Services.AddScoped<ICategoryService, CategoryService>();
-        builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+        builder.Services.AddScoped<PersonRepository>();
+        builder.Services.AddScoped<IPersonRepository, CachedPersonRepository>();
         builder.Services.AddScoped<IPersonService, PersonService>();
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
@@ -22,6 +24,7 @@ public class Program
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString("ApplicationDataBase"));
         });
+        builder.Services.AddMemoryCache();
 
         var app = builder.Build();
 
@@ -35,7 +38,6 @@ public class Program
         {
             var dbContext = scope.ServiceProvider.GetService<ApplicationDBContext>()!;
             dbContext.Database.Migrate();
-
         }
         app.Run();
     }
