@@ -9,10 +9,12 @@ namespace SuperHeroes.Application.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IPersonRepository _personRepository;
 
-        public CategoryService(ICategoryRepository _categoryRepository)
+        public CategoryService(ICategoryRepository categoryRepository, IPersonRepository personRepository)
         {
-            this._categoryRepository = _categoryRepository;
+            _categoryRepository = categoryRepository;
+            _personRepository = personRepository;
         }
 
         public async Task<List<Category>> GetAllCategory()
@@ -20,80 +22,82 @@ namespace SuperHeroes.Application.Services
             return await _categoryRepository.GetAllCategories();
         }
 
-        public async Task<CategoryResponse> GetCategoryById(long id)
+        public async Task<CategoryResponseModel> GetCategoryById(long id)
         {
             var isExist = await _categoryRepository.AnyCategoryById(id);
             if (!isExist)
             {
                 throw new CategoryNotFoundException($"Category with this ID: {id} not found.");
             }
-            else
+            var categoryById = await _categoryRepository.GetCategoryById(id);
+            var categoryResponseModel = new CategoryResponseModel
             {
-                var categoryById = await _categoryRepository.GetCategoryById(id);
-                var response = new CategoryResponse
+                Id = categoryById.Id,
+                Name = categoryById.Name,
+                Persons = categoryById.CategoryPersons.Select(cp => new CategoryPersonResponseModel
                 {
-                    Id = categoryById.Id,
-                    Name = categoryById.Name,
-                    Persons = categoryById.CategoryPersons.Select(cp => new CategoryPersonResponse
-                    {
-                        PersonId = cp.PersonId,
-                        FirstName = cp.Person.FirstName,
-                        LastName = cp.Person.LastName,
-                        SuperHeroName = cp.Person.SuperHeroName,
-                        Age = cp.Person.Age
-                    }).ToList()
-                };
-                return response;
-            }
+                    PersonId = cp.PersonId,
+                    FirstName = cp.Person.FirstName,
+                    LastName = cp.Person.LastName,
+                    SuperHeroName = cp.Person.SuperHeroName,
+                    Age = cp.Person.Age
+                }).ToList()
+            };
+            return categoryResponseModel;
         }
 
-        public async Task CreateCategory(CategoryModel categoryModel)
+        public async Task CreateCategory(CategoryRequestModel categoryRequestModel)
         {
-            //var isExist = await _categoryRepository.AnyCategoryWithName(categoryModel.Name);
-            //if (isExist)
-            //{
-            //    throw new CategoryDuplicateCreationName("");
-            //}
-            //else
-            //{
-                
-            //}
+            var isExist = await _categoryRepository.AnyCategoryWithName(categoryRequestModel.Name);
+            if (isExist)
+            {
+                throw new CategoryDuplicateCreationName($"Person with this Superhero name - {categoryRequestModel.Name} already exist.");
+            }
             await _categoryRepository.CreateCategory(new Category
             {
-                Name = categoryModel.Name
+                Name = categoryRequestModel.Name
             });
-
         }
 
         public async Task AddPerson(long categoryId, long personId)
         {
+            var isExistForCategoryId = await _categoryRepository.AnyCategoryById(categoryId);
+            if (!isExistForCategoryId)
+            {
+                throw new CategoryNotFoundException($"Category with this ID: {categoryId} not found.");
+            }
+            var isExistForPersonId = await _personRepository.AnyPersonById(personId);
+            if (!isExistForPersonId)
+            {
+                throw new PersonNotFoundException($"Person with this ID: {personId} not found.");
+            }
             await _categoryRepository.AddPerson(categoryId, personId);
         }
 
-        public async Task<CategoryResponse> UpdateCategory(CategoryUpdateModel categoryUpdateModel)
+        public async Task<CategoryResponseModel> UpdateCategory(CategoryUpdateRequestModel categoryUpdateRequestModel)
         {
             var category = new Category 
             {
-                Id = categoryUpdateModel.Id,
-                Name = categoryUpdateModel.Name 
+                Id = categoryUpdateRequestModel.Id,
+                Name = categoryUpdateRequestModel.Name 
             };
             await _categoryRepository.UpdateCategory(category);
-            Category categoryResponse = await _categoryRepository.GetCategoryById(category.Id);
-            return new CategoryResponse 
+            Category categoryResponseModel = await _categoryRepository.GetCategoryById(category.Id);
+            return new CategoryResponseModel 
             {   
-                Id = categoryResponse.Id,
-                Name = categoryResponse.Name 
+                Id = categoryResponseModel.Id,
+                Name = categoryResponseModel.Name 
             };
         }
 
-        public async Task DeleteCategory(long id)
+        public async Task DeleteCategory(long categoryId)
         {
-            var deleteCategory = _categoryRepository.DeleteCategoryById(id);
-            if(deleteCategory == null)
+            var isExist = await _categoryRepository.AnyCategoryById(categoryId);
+            if (!isExist)
             {
-                throw new Exception("Empty");
+                throw new CategoryNotFoundException($"Category with this ID: {categoryId} not found.");
             }
-            await deleteCategory;
+            await _categoryRepository.DeleteCategoryById(categoryId);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace SuperHeroes.Application.Models.Response
 {
-    public class CategoryPersonResponse
+    public class PersonResponseModel
     {
         public long PersonId { get; set; }
         public string FirstName { get; set; } = null!;

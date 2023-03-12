@@ -9,9 +9,9 @@ namespace SuperHeroes.Infrastructure.Repositories
     {
         private readonly ApplicationDBContext _appDbContext;
 
-        public PersonRepository(ApplicationDBContext _appDbContext)
+        public PersonRepository(ApplicationDBContext appDbContext)
         {
-            this._appDbContext = _appDbContext;
+            _appDbContext = appDbContext;
         }
 
         public async Task<List<Person>> GetAllPerson()
@@ -48,11 +48,8 @@ namespace SuperHeroes.Infrastructure.Repositories
 
         public async Task<int> DeletePersonById(long id)
         {
-            var deletedPerson =await _appDbContext.Person.Where(personId => personId.Id == id).ExecuteDeleteAsync();
-            if (deletedPerson > 0)
-            {
-                await _appDbContext.SaveChangesAsync();
-            }
+            var deletedPerson = await _appDbContext.Person.Where(personId => personId.Id == id).ExecuteDeleteAsync();
+            await _appDbContext.SaveChangesAsync();
             return deletedPerson;
         }
     }

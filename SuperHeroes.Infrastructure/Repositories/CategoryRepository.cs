@@ -9,9 +9,9 @@ namespace SuperHeroes.Infrastructure.Repositories
     {
         private readonly ApplicationDBContext _appDbContext;
 
-        public CategoryRepository(ApplicationDBContext _appDbContext)
+        public CategoryRepository(ApplicationDBContext appDbContext)
         {
-            this._appDbContext = _appDbContext;
+            _appDbContext = appDbContext;
         }
 
         public async Task<List<Category>> GetAllCategories()
@@ -44,12 +44,9 @@ namespace SuperHeroes.Infrastructure.Repositories
             return _appDbContext.Categories.AnyAsync(name => name.Name == categoryName);
         }
 
+        //rjgrubgn
         public async Task AddPerson(long categoryId, long personId)
         {
-            if (!await _appDbContext.Categories.AnyAsync(id => id.Id == categoryId))
-                throw new Exception("Not Found");
-            if (!await _appDbContext.Person.AnyAsync(id => id.Id == personId))
-                throw new Exception("Not Found");
             _appDbContext.Set<CategoryPerson>().Add(new CategoryPerson
             {
                 CategoryId = categoryId,
