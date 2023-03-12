@@ -1,3 +1,4 @@
+using Common.Middleware;
 using Microsoft.EntityFrameworkCore;
 using SuperHeroes.Application.Interfaces;
 using SuperHeroes.Application.Services;
@@ -39,6 +40,7 @@ public class Program
             var dbContext = scope.ServiceProvider.GetService<ApplicationDBContext>()!;
             dbContext.Database.Migrate();
         }
+        app.UseMiddleware<ErrorHandlerMiddleware>();
         app.Run();
     }
 }

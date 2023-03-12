@@ -21,18 +21,23 @@ namespace SuperHeroes.Infrastructure.Repositories
 
         public async Task<Person> GetPersonById(long id)
         {
-            var getPerson = await _appDbContext.Person.FirstOrDefaultAsync(personId=>personId.Id == id);
-            if (getPerson == null)
-            {
-                throw new Exception("Not found");
-            }
-            return getPerson;
+            return await _appDbContext.Person.FirstOrDefaultAsync(personId=>personId.Id == id);
+        }
+
+        public async Task<bool> AnyPersonById(long personId)
+        {
+            return await _appDbContext.Person.AnyAsync(id => id.Id == personId);
         }
 
         public async Task CreatePerson(Person person)
         {
             await _appDbContext.Person.AddAsync(person);
             await _appDbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> AnyPersonWithSuperHeroName(string personSuperHeroName)
+        {
+            return await _appDbContext.Person.AnyAsync(n => n.SuperHeroName == personSuperHeroName);
         }
 
         public async Task UpdatePerson(Person person)

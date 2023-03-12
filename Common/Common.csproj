@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj" />
-    <ProjectReference Include="..\SuperHeroes.Application\SuperHeroes.Application.csproj" />
-    <ProjectReference Include="..\SuperHeroes.Domain\SuperHeroes.Domain.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
 </Project>

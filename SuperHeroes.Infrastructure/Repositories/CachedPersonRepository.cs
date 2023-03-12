@@ -28,6 +28,16 @@ namespace SuperHeroes.Infrastructure.Repositories
             return await _personRepository.GetPersonById(id);
         }
 
+        public async Task<bool> AnyPersonById(long personId)
+        {
+            return await _personRepository.AnyPersonById(personId);
+        }
+
+        public async Task<bool> AnyPersonWithSuperHeroName(string personSuperHeroName)
+        {
+            return await _personRepository.AnyPersonWithSuperHeroName(personSuperHeroName);
+        }
+
         public async Task CreatePerson(Person person)
         {
             _memoryCache.Remove(_cacheKey);

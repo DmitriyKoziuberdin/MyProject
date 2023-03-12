@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SuperHeroes.Application.Interfaces;
-using SuperHeroes.Application.Models.Response;
 using SuperHeroes.Domain;
 using SuperHeroes.Domain.Entities;
 
@@ -26,26 +25,23 @@ namespace SuperHeroes.Infrastructure.Repositories
                 .Include(categoryPeople=> categoryPeople.CategoryPersons)
                 .ThenInclude(person => person.Person)
                 .FirstAsync(categoryId => categoryId.Id == id);
-            //var response = new CategoryResponse
-            //{
-            //    Id = getCategory.Id,
-            //    Name = getCategory.Name,
-            //    Persons = getCategory.CategoryPersons.Select(cp => new CategoryPersonResponse
-            //    {
-            //        PersonId = cp.PersonId,
-            //        FirstName = cp.Person.FirstName,
-            //        LastName = cp.Person.LastName,
-            //        SuperHeroName = cp.Person.SuperHeroName,
-            //        Age = cp.Person.Age
-            //    }).ToList()
-            //};
             return getCategory;
+        }
+
+        public async Task<bool> AnyCategoryById(long categoryId)
+        {
+            return await _appDbContext.Categories.AnyAsync(id => id.Id == categoryId);
         }
 
         public async Task CreateCategory(Category category)
         {
             await _appDbContext.AddAsync(category);
             await _appDbContext.SaveChangesAsync();
+        }
+
+        public Task<bool> AnyCategoryWithName(string categoryName)
+        {
+            return _appDbContext.Categories.AnyAsync(name => name.Name == categoryName);
         }
 
         public async Task AddPerson(long categoryId, long personId)

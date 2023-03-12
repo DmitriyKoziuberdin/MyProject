@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHero1.1", "SuperHero1.1\SuperHero1.1.csproj", "{6DC65585-89B0-471C-9A09-C0CE58286298}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperHero1.1", "SuperHero1.1\SuperHero1.1.csproj", "{6DC65585-89B0-471C-9A09-C0CE58286298}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHeroes.Domain", "SuperHeroes.Domain\SuperHeroes.Domain.csproj", "{75AFBDFF-3AC8-4BCB-9EA7-5D3631B38C2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperHeroes.Domain", "SuperHeroes.Domain\SuperHeroes.Domain.csproj", "{75AFBDFF-3AC8-4BCB-9EA7-5D3631B38C2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHeroes.Application", "SuperHeroes.Application\SuperHeroes.Application.csproj", "{95ABD1A9-3068-4492-B140-A5634E1FFD6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperHeroes.Application", "SuperHeroes.Application\SuperHeroes.Application.csproj", "{95ABD1A9-3068-4492-B140-A5634E1FFD6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperHeroes.Infrastructure", "SuperHeroes.Infrastructure\SuperHeroes.Infrastructure.csproj", "{9908D7C9-798A-4D66-B739-2591069168D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperHeroes.Infrastructure", "SuperHeroes.Infrastructure\SuperHeroes.Infrastructure.csproj", "{9908D7C9-798A-4D66-B739-2591069168D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{EF1626E9-A291-4F60-90FD-CE3BA801AC6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{9908D7C9-798A-4D66-B739-2591069168D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9908D7C9-798A-4D66-B739-2591069168D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9908D7C9-798A-4D66-B739-2591069168D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF1626E9-A291-4F60-90FD-CE3BA801AC6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF1626E9-A291-4F60-90FD-CE3BA801AC6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF1626E9-A291-4F60-90FD-CE3BA801AC6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF1626E9-A291-4F60-90FD-CE3BA801AC6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
