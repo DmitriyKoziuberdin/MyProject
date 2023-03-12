@@ -7,9 +7,9 @@ namespace SuperHeroes.Application.Interfaces
     public interface IPersonService
     {
         public Task<List<Person>> GetAllPerson();
-        public Task<PersonResponse> GetPersonById(long id);
-        public Task CreatePerson(PersonModel personModel);
-        public Task<PersonResponse> UpdatePerson(PersonUpdateModel personUpdateModel);
-        public Task DeletePersonById(long id);
+        public Task<PersonResponseModel> GetPersonById(long personId);
+        public Task CreatePerson(PersonRequestModel personModel);
+        public Task<PersonResponseModel> UpdatePerson(PersonUpdateRequestModel personUpdateModel);
+        public Task DeletePersonById(long personId);
     }
 }

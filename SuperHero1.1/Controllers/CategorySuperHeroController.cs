@@ -18,28 +18,25 @@ namespace SuperHero1._1.Controllers
         }
 
         [HttpGet]
-        [Route("categories")]
         public async Task<List<Category>> GetAllCategory()
         {
             return await _categoryService.GetAllCategory();
         }
 
-        [HttpGet]
-        [Route("{id:long}")]
-        public async Task<CategoryResponse> GetCategoryById([FromRoute] long id)
+        [HttpGet("{id:long}")]
+        public async Task<CategoryResponseModel> GetCategoryById([FromRoute] long id)
         {
             return await _categoryService.GetCategoryById(id);
         }
 
         [HttpPost]
         [Route("createCategory")]
-        public async Task CreateCategory(CategoryModel categoryModel)
+        public async Task CreateCategory(CategoryRequestModel categoryModel)
         {
             await _categoryService.CreateCategory(categoryModel);
         }
 
-        [HttpPost]
-        [Route("{categoryId:long}/person/{personId:long}")]
+        [HttpPost("{categoryId:long}/person/{personId:long}")]
         public async Task AddPerson([FromRoute] long categoryId, [FromRoute] long personId)
         {
             await _categoryService.AddPerson(categoryId, personId);
@@ -47,16 +44,15 @@ namespace SuperHero1._1.Controllers
 
         [HttpPut]
         [Route("updateCategory")]
-        public async Task<CategoryResponse> UpdateCategory(CategoryUpdateModel categoryUpdateModel)
+        public async Task<CategoryResponseModel> UpdateCategory(CategoryUpdateRequestModel categoryUpdateModel)
         {
             return await _categoryService.UpdateCategory(categoryUpdateModel);
         }
 
-        [HttpDelete]
-        [Route("deleteCategory")]
-        public async Task DeleteCategory(long id)
+        [HttpDelete("{categoryId:long}")]
+        public async Task DeleteCategory([FromRoute] long categoryId)
         {
-            await _categoryService.DeleteCategory(id);
+            await _categoryService.DeleteCategory(categoryId);
         }
     }
 }

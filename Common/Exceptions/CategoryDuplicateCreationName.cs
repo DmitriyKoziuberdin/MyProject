@@ -5,9 +5,9 @@ namespace Common.Exceptions
 {
     public class CategoryDuplicateCreationName : BusinessExceptionBase
     {
-        CategoryDuplicateCreationName(string message) : base(message)
+        public CategoryDuplicateCreationName(string message) : base(message)
         {
-            ErrorCode = ErrorCodes.CategoryDuplicationCreationName;
+            ErrorCode = ErrorCodes.CategoryDuplicateName;
             StatusCode = HttpStatusCode.NotFound;
         }
     }

@@ -10,9 +10,9 @@ namespace SuperHeroes.Application.Services
     {
         private readonly IPersonRepository _personRepository;
 
-        public PersonService(IPersonRepository _personRepository)
+        public PersonService(IPersonRepository personRepository)
         {
-            this._personRepository = _personRepository;
+            _personRepository = personRepository;
         }
 
         public async Task<List<Person>> GetAllPerson()
@@ -20,77 +20,71 @@ namespace SuperHeroes.Application.Services
            return await _personRepository.GetAllPerson();
         }
 
-        public async Task<PersonResponse> GetPersonById(long id)
+        public async Task<PersonResponseModel> GetPersonById(long personId)
         {
-            var isExist = await _personRepository.AnyPersonById(id);
+            var isExist = await _personRepository.AnyPersonById(personId);
             if (!isExist)
             {
-                throw new PersonNotFoundException($"Person with this ID: {id} not found.");
+                throw new PersonNotFoundException($"Person with this ID: {personId} not found.");
             }
-            else
+            var personById = await _personRepository.GetPersonById(personId);
+            var personByIdResponseModel = new PersonResponseModel
             {
-                var personById = await _personRepository.GetPersonById(id);
-                var personByIdResponse = new PersonResponse
-                {
-                    PersonId = personById.Id,
-                    FirstName = personById.FirstName,
-                    LastName = personById.LastName,
-                    SuperHeroName = personById.SuperHeroName,
-                };
-                return personByIdResponse;
-            }
+                PersonId = personById.Id,
+                FirstName = personById.FirstName,
+                LastName = personById.LastName,
+                SuperHeroName = personById.SuperHeroName,
+            };
+            return personByIdResponseModel;
         }
 
-        public async Task CreatePerson(PersonModel personModel)
+        public async Task CreatePerson(PersonRequestModel personRequestModel)
         {
-            var isExist = await _personRepository.AnyPersonWithSuperHeroName(personModel.SuperHeroName);
+            var isExist = await _personRepository.AnyPersonWithSuperHeroName(personRequestModel.SuperHeroName);
             if (isExist)
             {
-                throw new PersonDuplicateCreationSuperHeroName($"Person with this Superhero name - {personModel.SuperHeroName} already exist.");
+                throw new PersonDuplicateCreationSuperHeroName($"Person with this Superhero name - {personRequestModel.SuperHeroName} already exist.");
             }
-            else
+            await _personRepository.CreatePerson(new Person
             {
-                await _personRepository.CreatePerson(new Person
-                {
-                    FirstName = personModel.FirstName,
-                    LastName = personModel.LastName,
-                    SuperHeroName = personModel.SuperHeroName,
-                    Age = personModel.Age,
-                });
-            }
+                FirstName = personRequestModel.FirstName,
+                LastName = personRequestModel.LastName,
+                SuperHeroName = personRequestModel.SuperHeroName,
+                Age = personRequestModel.Age,
+            });
         }
 
-        public async Task<PersonResponse> UpdatePerson(PersonUpdateModel personUpdateModel)
+        public async Task<PersonResponseModel> UpdatePerson(PersonUpdateRequestModel personUpdateRequestModel)
         {
             var personUpdate = new Person
             {
-                Id = personUpdateModel.PersonId, 
-                FirstName = personUpdateModel.FirstName,
-                LastName = personUpdateModel.LastName,
-                SuperHeroName = personUpdateModel.SuperHeroName,
-                Age = personUpdateModel.Age
+                Id = personUpdateRequestModel.PersonId, 
+                FirstName = personUpdateRequestModel.FirstName,
+                LastName = personUpdateRequestModel.LastName,
+                SuperHeroName = personUpdateRequestModel.SuperHeroName,
+                Age = personUpdateRequestModel.Age
             };
 
             await _personRepository.UpdatePerson(personUpdate);
-            Person personUpdateResponse = await _personRepository.GetPersonById(personUpdate.Id);
-            return new PersonResponse
+            Person personUpdateResponseModel = await _personRepository.GetPersonById(personUpdate.Id);
+            return new PersonResponseModel
             {
-                PersonId = personUpdateResponse.Id,
-                FirstName = personUpdateResponse.FirstName,
-                LastName = personUpdateResponse.LastName,
-                SuperHeroName = personUpdateResponse.SuperHeroName,
-                Age = personUpdateResponse.Age
+                PersonId = personUpdateResponseModel.Id,
+                FirstName = personUpdateResponseModel.FirstName,
+                LastName = personUpdateResponseModel.LastName,
+                SuperHeroName = personUpdateResponseModel.SuperHeroName,
+                Age = personUpdateResponseModel.Age
             };
         }
 
-        public async Task DeletePersonById(long id)
-        {
-            var deletedPerson = _personRepository.DeletePersonById(id);
-            if (deletedPerson == null)
+        public async Task DeletePersonById(long personId)
+        { 
+            var isExist = await _personRepository.AnyPersonById(personId);
+            if (!isExist)
             {
-                throw new Exception("Person with this ID does't exist");
+                throw new PersonNotFoundException($"Person with this ID: {personId} not found.");
             }
-            await deletedPerson;
+            await _personRepository.DeletePersonById(personId);
         }
     }
 }

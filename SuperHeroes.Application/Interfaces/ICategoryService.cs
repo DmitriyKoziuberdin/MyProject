@@ -7,10 +7,10 @@ namespace SuperHeroes.Application.Interfaces
     public interface ICategoryService
     {
         public Task<List<Category>> GetAllCategory();
-        public Task<CategoryResponse> GetCategoryById(long id);
-        public Task CreateCategory(CategoryModel categoryModel);
+        public Task<CategoryResponseModel> GetCategoryById(long id);
+        public Task CreateCategory(CategoryRequestModel categoryModel);
         public Task AddPerson(long categoryId, long productId);
-        public Task<CategoryResponse> UpdateCategory(CategoryUpdateModel categoryUpdateModel);
-        public Task DeleteCategory(long id);
+        public Task<CategoryResponseModel> UpdateCategory(CategoryUpdateRequestModel categoryUpdateModel);
+        public Task DeleteCategory(long categoryId);
     }
 }

@@ -18,35 +18,32 @@ namespace SuperHero1._1.Controllers
         }
 
         [HttpGet]
-        [Route("persons")]
         public async Task<List<Person>> GetAllPerson()
         {
             return await _personService.GetAllPerson();
         }
 
-        [HttpGet]
-        [Route("person")]
-        public async Task<PersonResponse> GetPersonById(long id)
+        [HttpGet("{id:long}")]
+        public async Task<PersonResponseModel> GetPersonById([FromRoute] long id)
         {
             return await _personService.GetPersonById(id);
         }
 
         [HttpPost]
         [Route("createBudget")]
-        public async Task CreatePerson(PersonModel personModel)
+        public async Task CreatePerson(PersonRequestModel personModel)
         {
            await _personService.CreatePerson(personModel);
         }
 
         [HttpPut]
         [Route("updatePerson")]
-        public async Task<PersonResponse> UpdatePerson(PersonUpdateModel personUpdateModel)
+        public async Task<PersonResponseModel> UpdatePerson(PersonUpdateRequestModel personUpdateModel)
         {
             return await _personService.UpdatePerson(personUpdateModel);
         }
 
-        [HttpDelete]
-        [Route("deletePerson")]
+        [HttpDelete("{id:long}")]
         public async Task DeletePerson(long id)
         {
             await _personService.DeletePersonById(id);

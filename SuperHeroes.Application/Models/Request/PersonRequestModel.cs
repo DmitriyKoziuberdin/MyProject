@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SuperHeroes.Domain.Entities; 
 
 namespace SuperHeroes.Application.Models.Request
 {
-    public class PersonUpdateModel
+    public class PersonRequestModel
     {
-        public long PersonId { get; set; }
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string SuperHeroName { get; set; } = null!;

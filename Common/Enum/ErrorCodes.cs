@@ -10,6 +10,6 @@
 
         Category = 2_000,
         CategoryNotFound = 2_001,
-        CategoryDuplicationCreationName = 2_002,
+        CategoryDuplicateName = 2_002
     }
 }
