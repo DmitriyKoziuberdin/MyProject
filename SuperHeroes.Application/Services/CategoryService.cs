@@ -1,4 +1,4 @@
-﻿
+﻿using Common.Exceptions;
 using SuperHeroes.Application.Interfaces;
 using SuperHeroes.Application.Models.Request;
 using SuperHeroes.Application.Models.Response;
@@ -22,29 +22,47 @@ namespace SuperHeroes.Application.Services
 
         public async Task<CategoryResponse> GetCategoryById(long id)
         {
-            var categoryById = await _categoryRepository.GetCategoryById(id);
-            var response = new CategoryResponse
+            var isExist = await _categoryRepository.AnyCategoryById(id);
+            if (!isExist)
             {
-                Id = categoryById.Id,
-                Name = categoryById.Name,
-                Persons = categoryById.CategoryPersons.Select(cp => new CategoryPersonResponse
+                throw new CategoryNotFoundException($"Category with this ID: {id} not found.");
+            }
+            else
+            {
+                var categoryById = await _categoryRepository.GetCategoryById(id);
+                var response = new CategoryResponse
                 {
-                    PersonId = cp.PersonId,
-                    FirstName = cp.Person.FirstName,
-                    LastName = cp.Person.LastName,
-                    SuperHeroName = cp.Person.SuperHeroName,
-                    Age = cp.Person.Age
-                }).ToList()
-            };
-            return response;
+                    Id = categoryById.Id,
+                    Name = categoryById.Name,
+                    Persons = categoryById.CategoryPersons.Select(cp => new CategoryPersonResponse
+                    {
+                        PersonId = cp.PersonId,
+                        FirstName = cp.Person.FirstName,
+                        LastName = cp.Person.LastName,
+                        SuperHeroName = cp.Person.SuperHeroName,
+                        Age = cp.Person.Age
+                    }).ToList()
+                };
+                return response;
+            }
         }
 
         public async Task CreateCategory(CategoryModel categoryModel)
         {
+            //var isExist = await _categoryRepository.AnyCategoryWithName(categoryModel.Name);
+            //if (isExist)
+            //{
+            //    throw new CategoryDuplicateCreationName("");
+            //}
+            //else
+            //{
+                
+            //}
             await _categoryRepository.CreateCategory(new Category
             {
                 Name = categoryModel.Name
             });
+
         }
 
         public async Task AddPerson(long categoryId, long personId)

@@ -7,6 +7,8 @@ namespace SuperHeroes.Application.Interfaces
     {
         public Task<List<Category>> GetAllCategories();
         public Task<Category> GetCategoryById(long id);
+        public Task<bool> AnyCategoryById(long id);
+        public Task<bool> AnyCategoryWithName(string categoryName);
         public Task CreateCategory(Category category);
         public Task AddPerson(long categoryId, long personId);
         public Task UpdateCategory(Category category);

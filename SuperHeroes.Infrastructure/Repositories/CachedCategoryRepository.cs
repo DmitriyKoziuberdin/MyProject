@@ -28,6 +28,11 @@ namespace SuperHeroes.Infrastructure.Repositories
             return await _categoryRepository.GetCategoryById(id);
         }
 
+        public async Task<bool> AnyCategoryById(long id)
+        {
+            return await _categoryRepository.AnyCategoryById(id);
+        }
+
         public async Task AddPerson(long categoryId, long personId)
         {
             _memoryCache.Remove(_cacheKey);
@@ -38,6 +43,11 @@ namespace SuperHeroes.Infrastructure.Repositories
         {
             _memoryCache.Remove(_cacheKey);
             await _categoryRepository.CreateCategory(category); 
+        }
+
+        public Task<bool> AnyCategoryWithName(string categoryName)
+        {
+            return _categoryRepository.AnyCategoryWithName(categoryName);
         }
 
         public async Task UpdateCategory(Category category)
