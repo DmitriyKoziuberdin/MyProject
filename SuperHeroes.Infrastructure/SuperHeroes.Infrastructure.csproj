@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
-    <ProjectReference Include="..\SuperHeroes.Application\SuperHeroes.Application.csproj" />
+    <ProjectReference Include="..\SuperHeroes.Application\SuperHeroes.ApplicationServices.csproj" />
     <ProjectReference Include="..\SuperHeroes.Domain\SuperHeroes.Domain.csproj" />
   </ItemGroup>
 
