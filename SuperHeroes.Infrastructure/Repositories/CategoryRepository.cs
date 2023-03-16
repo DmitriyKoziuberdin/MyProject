@@ -44,7 +44,6 @@ namespace SuperHeroes.Infrastructure.Repositories
             return _appDbContext.Categories.AnyAsync(name => name.Name == categoryName);
         }
 
-        //rjgrubgn
         public async Task AddPerson(long categoryId, long personId)
         {
             _appDbContext.Set<CategoryPerson>().Add(new CategoryPerson
@@ -63,7 +62,9 @@ namespace SuperHeroes.Infrastructure.Repositories
 
         public async Task<int> DeleteCategoryById(long id)
         {
-            var deleteCategory = await _appDbContext.Categories.Where(categoryId=>categoryId.Id == id).ExecuteDeleteAsync();
+            var deleteCategory = await _appDbContext.Categories
+                .Where(categoryId=>categoryId.Id == id)
+                .ExecuteDeleteAsync();
             await _appDbContext.SaveChangesAsync();
             return deleteCategory;
         }

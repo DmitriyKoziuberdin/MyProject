@@ -65,6 +65,11 @@ namespace SuperHeroes.Application.Services
                 Age = personUpdateRequestModel.Age
             };
 
+            var isExist = await _personRepository.AnyPersonById(personUpdate.Id);
+            if (!isExist)
+            {
+                throw new PersonNotFoundException($"Person with this ID: {personUpdate.Id} not found.");
+            }
             await _personRepository.UpdatePerson(personUpdate);
             Person personUpdateResponseModel = await _personRepository.GetPersonById(personUpdate.Id);
             return new PersonResponseModel
