@@ -21,7 +21,7 @@ namespace Common.Middleware
             {
                 await _next(context);
             }
-            catch(BusinessExceptionBase exceptionBase) 
+            catch(BusinessLogicExceptionBase exceptionBase) 
             {
                 context.Response.StatusCode = (int)exceptionBase.StatusCode;
                 context.Response.ContentType = "application/json";
@@ -35,7 +35,7 @@ namespace Common.Middleware
             }
         }
 
-        private string TransformeException(BusinessExceptionBase exceptionBase)
+        private string TransformeException(BusinessLogicExceptionBase exceptionBase)
         {
             return JsonSerializer.Serialize(new
             {

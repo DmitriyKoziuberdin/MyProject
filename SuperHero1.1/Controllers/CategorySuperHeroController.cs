@@ -24,35 +24,36 @@ namespace SuperHero1._1.Controllers
         }
 
         [HttpGet("{id:long}")]
-        public async Task<CategoryResponseModel> GetCategoryById([FromRoute] long id)
+        public async Task<ActionResult<CategoryResponseModel>> GetCategoryById([FromRoute] long id)
         {
-            return await _categoryService.GetCategoryById(id);
+            return new OkObjectResult(await _categoryService.GetCategoryById(id));
         }
 
-        [HttpPost]
-        [Route("createCategory")]
-        public async Task CreateCategory(CategoryRequestModel categoryModel)
+        [HttpPost("createCategory")]
+        public async Task<IActionResult> CreateCategory([FromBody] CategoryRequestModel categoryModel)
         {
             await _categoryService.CreateCategory(categoryModel);
+            return Ok();
         }
 
         [HttpPost("{categoryId:long}/person/{personId:long}")]
-        public async Task AddPerson([FromRoute] long categoryId, [FromRoute] long personId)
+        public async Task<IActionResult> AddPerson([FromRoute] long categoryId, [FromRoute] long personId)
         {
             await _categoryService.AddPerson(categoryId, personId);
+            return Ok();
         }
 
-        [HttpPut]
-        [Route("updateCategory")]
-        public async Task<CategoryResponseModel> UpdateCategory(CategoryUpdateRequestModel categoryUpdateModel)
+        [HttpPut("{categoryId:long}/")]
+        public async Task<ActionResult<CategoryResponseModel>> UpdateCategory([FromRoute] long categoryId, [FromBody] CategoryUpdateRequestModel categoryUpdateModel)
         {
-            return await _categoryService.UpdateCategory(categoryUpdateModel);
+            return new OkObjectResult(await _categoryService.UpdateCategory(categoryUpdateModel));
         }
 
         [HttpDelete("{categoryId:long}")]
-        public async Task DeleteCategory([FromRoute] long categoryId)
+        public async Task<IActionResult> DeleteCategory([FromRoute] long categoryId)
         {
             await _categoryService.DeleteCategory(categoryId);
+            return Ok();
         }
     }
 }

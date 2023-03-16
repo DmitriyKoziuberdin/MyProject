@@ -3,7 +3,7 @@ using System.Net;
 
 namespace Common.Exceptions
 {
-    public class PersonDuplicateCreationSuperHeroName : BusinessExceptionBase
+    public class PersonDuplicateCreationSuperHeroName : BusinessLogicExceptionBase
     {
         public PersonDuplicateCreationSuperHeroName(string message) : base(message) 
         {

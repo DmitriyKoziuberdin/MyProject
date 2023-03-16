@@ -3,11 +3,11 @@ using System.Net;
 
 namespace Common.Exceptions
 {
-    public class BusinessExceptionBase : Exception
+    public class BusinessLogicExceptionBase : Exception
     {
         public ErrorCodes ErrorCode { get; set; }
         public HttpStatusCode StatusCode { get; set; }
-        public BusinessExceptionBase(string message) : base(message)
+        public BusinessLogicExceptionBase(string message) : base(message)
         {
 
         }

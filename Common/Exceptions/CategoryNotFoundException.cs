@@ -3,7 +3,7 @@ using System.Net;
 
 namespace Common.Exceptions
 {
-    public class CategoryNotFoundException : BusinessExceptionBase
+    public class CategoryNotFoundException : BusinessLogicExceptionBase
     {
         public CategoryNotFoundException(string message) : base(message) 
         {

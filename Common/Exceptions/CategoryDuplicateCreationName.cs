@@ -3,7 +3,7 @@ using System.Net;
 
 namespace Common.Exceptions
 {
-    public class CategoryDuplicateCreationName : BusinessExceptionBase
+    public class CategoryDuplicateCreationName : BusinessLogicExceptionBase
     {
         public CategoryDuplicateCreationName(string message) : base(message)
         {

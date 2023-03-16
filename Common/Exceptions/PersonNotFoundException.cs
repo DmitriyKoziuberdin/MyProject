@@ -3,7 +3,7 @@ using System.Net;
 
 namespace Common.Exceptions
 {
-    public class PersonNotFoundException : BusinessExceptionBase
+    public class PersonNotFoundException : BusinessLogicExceptionBase
     {
         public PersonNotFoundException(string message) : base(message)
         {

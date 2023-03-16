@@ -11,7 +11,7 @@ namespace SuperHero1._1.Controllers
     public class PersonSuperHeroController : ControllerBase
     {
         private readonly IPersonService _personService;
-        
+
         public PersonSuperHeroController(IPersonService _personService)
         {
             this._personService = _personService;
@@ -24,29 +24,29 @@ namespace SuperHero1._1.Controllers
         }
 
         [HttpGet("{id:long}")]
-        public async Task<PersonResponseModel> GetPersonById([FromRoute] long id)
+        public async Task<ActionResult<PersonResponseModel>> GetPersonById([FromRoute] long id)
         {
-            return await _personService.GetPersonById(id);
+            return new OkObjectResult(await _personService.GetPersonById(id));
         }
 
-        [HttpPost]
-        [Route("createBudget")]
-        public async Task CreatePerson(PersonRequestModel personModel)
+        [HttpPost("createBudget")]
+        public async Task<IActionResult> CreatePerson(PersonRequestModel personModel)
         {
-           await _personService.CreatePerson(personModel);
+            await _personService.CreatePerson(personModel);
+            return Ok();
         }
 
-        [HttpPut]
-        [Route("updatePerson")]
-        public async Task<PersonResponseModel> UpdatePerson(PersonUpdateRequestModel personUpdateModel)
+        [HttpPut("{personId:long}")]
+        public async Task<ActionResult<PersonResponseModel>> UpdatePerson([FromRoute] long personId,[FromBody]PersonUpdateRequestModel personUpdateModel)
         {
-            return await _personService.UpdatePerson(personUpdateModel);
+            return new OkObjectResult(await _personService.UpdatePerson(personUpdateModel));
         }
 
-        [HttpDelete("{id:long}")]
-        public async Task DeletePerson(long id)
+        [HttpDelete("{personId:long}")]
+        public async Task<IActionResult> DeletePerson(long personId)
         {
-            await _personService.DeletePersonById(id);
+            await _personService.DeletePersonById(personId);
+            return Ok();
         }
     }
 }
