@@ -81,6 +81,11 @@ namespace SuperHeroes.Application.Services
                 Id = categoryUpdateRequestModel.Id,
                 Name = categoryUpdateRequestModel.Name 
             };
+            var isExist = await _categoryRepository.AnyCategoryById( category.Id );
+            if (!isExist)
+            {
+                throw new CategoryNotFoundException($"Category with this ID: {category.Id} not found.");
+            }
             await _categoryRepository.UpdateCategory(category);
             Category categoryResponseModel = await _categoryRepository.GetCategoryById(category.Id);
             return new CategoryResponseModel 

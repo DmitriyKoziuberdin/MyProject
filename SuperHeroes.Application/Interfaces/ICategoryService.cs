@@ -1,5 +1,6 @@
 ﻿using SuperHeroes.Application.Models.Request;
 using SuperHeroes.Application.Models.Response;
+using SuperHeroes.ApplicationServices.Models.Response;
 using SuperHeroes.Domain.Entities;
 
 namespace SuperHeroes.Application.Interfaces
