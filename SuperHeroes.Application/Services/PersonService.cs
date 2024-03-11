@@ -2,6 +2,7 @@
 using SuperHeroes.Application.Interfaces;
 using SuperHeroes.Application.Models.Request;
 using SuperHeroes.Application.Models.Response;
+using SuperHeroes.ApplicationServices.Models.Response;
 using SuperHeroes.Domain.Entities;
 
 namespace SuperHeroes.Application.Services
@@ -54,27 +55,28 @@ namespace SuperHeroes.Application.Services
             });
         }
 
-        public async Task<PersonResponseModel> UpdatePerson(PersonUpdateRequestModel personUpdateRequestModel)
+        public async Task<PersonUpdateResponseModel> UpdatePerson(int personId, PersonUpdateRequestModel personUpdateRequestModel)
         {
+            var isExist = await _personRepository.AnyPersonById(personId);
+            if (!isExist)
+            {
+                throw new PersonNotFoundException($"Person with this ID: {personId} not found.");
+            }
+
             var personUpdate = new Person
             {
-                Id = personUpdateRequestModel.PersonId, 
+                Id = personId, 
                 FirstName = personUpdateRequestModel.FirstName,
                 LastName = personUpdateRequestModel.LastName,
                 SuperHeroName = personUpdateRequestModel.SuperHeroName,
                 Age = personUpdateRequestModel.Age
             };
 
-            var isExist = await _personRepository.AnyPersonById(personUpdate.Id);
-            if (!isExist)
-            {
-                throw new PersonNotFoundException($"Person with this ID: {personUpdate.Id} not found.");
-            }
+            
             await _personRepository.UpdatePerson(personUpdate);
             Person personUpdateResponseModel = await _personRepository.GetPersonById(personUpdate.Id);
-            return new PersonResponseModel
+            return new PersonUpdateResponseModel
             {
-                PersonId = personUpdateResponseModel.Id,
                 FirstName = personUpdateResponseModel.FirstName,
                 LastName = personUpdateResponseModel.LastName,
                 SuperHeroName = personUpdateResponseModel.SuperHeroName,

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SuperHeroes.Application.Interfaces;
 using SuperHeroes.Application.Models.Request;
 using SuperHeroes.Application.Models.Response;
+using SuperHeroes.ApplicationServices.Models.Response;
 using SuperHeroes.Domain.Entities;
 
 namespace SuperHero1._1.Controllers
@@ -36,10 +37,10 @@ namespace SuperHero1._1.Controllers
             return Ok();
         }
 
-        [HttpPut("{personId:long}")]
-        public async Task<ActionResult<PersonResponseModel>> UpdatePerson([FromRoute] long personId,[FromBody]PersonUpdateRequestModel personUpdateModel)
+        [HttpPut("{personId:int}")]
+        public async Task<ActionResult<PersonUpdateResponseModel>> UpdatePerson([FromRoute] int personId,[FromBody]PersonUpdateRequestModel personUpdateModel)
         {
-            return new OkObjectResult(await _personService.UpdatePerson(personUpdateModel));
+            return new OkObjectResult(await _personService.UpdatePerson(personId, personUpdateModel));
         }
 
         [HttpDelete("{personId:long}")]

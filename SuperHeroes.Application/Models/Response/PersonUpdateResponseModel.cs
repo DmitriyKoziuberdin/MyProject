@@ -1,6 +1,6 @@
-﻿namespace SuperHeroes.Application.Models.Request
+﻿namespace SuperHeroes.ApplicationServices.Models.Response
 {
-    public class PersonUpdateRequestModel
+    public class PersonUpdateResponseModel
     {
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
