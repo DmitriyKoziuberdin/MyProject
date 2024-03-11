@@ -11,7 +11,7 @@ namespace SuperHeroes.Application.Interfaces
         public Task<CategoryResponseModel> GetCategoryById(long id);
         public Task CreateCategory(CategoryRequestModel categoryModel);
         public Task AddPerson(long categoryId, long productId);
-        public Task<CategoryResponseModel> UpdateCategory(CategoryUpdateRequestModel categoryUpdateModel);
+        public Task<CategoryResponseModel> UpdateCategory(int categoryId, CategoryUpdateRequestModel categoryUpdateModel);
         public Task DeleteCategory(long categoryId);
     }
 }

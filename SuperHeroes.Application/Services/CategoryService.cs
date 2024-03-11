@@ -32,7 +32,6 @@ namespace SuperHeroes.Application.Services
             var categoryById = await _categoryRepository.GetCategoryById(id);
             var categoryResponseModel = new CategoryResponseModel
             {
-                Id = categoryById.Id,
                 Name = categoryById.Name,
                 Persons = categoryById.CategoryPersons.Select(cp => new CategoryPersonResponseModel
                 {
@@ -74,23 +73,25 @@ namespace SuperHeroes.Application.Services
             await _categoryRepository.AddPerson(categoryId, personId);
         }
 
-        public async Task<CategoryResponseModel> UpdateCategory(CategoryUpdateRequestModel categoryUpdateRequestModel)
+        public async Task<CategoryResponseModel> UpdateCategory(int categoryId, CategoryUpdateRequestModel categoryUpdateRequestModel)
         {
-            var category = new Category 
-            {
-                Id = categoryUpdateRequestModel.Id,
-                Name = categoryUpdateRequestModel.Name 
-            };
-            var isExist = await _categoryRepository.AnyCategoryById( category.Id );
+
+            var isExist = await _categoryRepository.AnyCategoryById(categoryId);
             if (!isExist)
             {
-                throw new CategoryNotFoundException($"Category with this ID: {category.Id} not found.");
+                throw new CategoryNotFoundException($"Category with this ID: {categoryId} not found.");
             }
+
+            var category = new Category 
+            {
+                Id = categoryId,
+                Name = categoryUpdateRequestModel.Name 
+            };
+           
             await _categoryRepository.UpdateCategory(category);
             Category categoryResponseModel = await _categoryRepository.GetCategoryById(category.Id);
             return new CategoryResponseModel 
             {   
-                Id = categoryResponseModel.Id,
                 Name = categoryResponseModel.Name 
             };
         }

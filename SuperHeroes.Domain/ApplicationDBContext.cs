@@ -15,7 +15,7 @@ namespace SuperHeroes.Domain
             optionsBuilder.UseSnakeCaseNamingConvention();
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)  
         {
             //modelBuilder.Entity<Category>()
             //    .HasKey(categoryId => categoryId.Id);
@@ -24,6 +24,7 @@ namespace SuperHeroes.Domain
             //    .HasMany(personSuperHeroes => personSuperHeroes.PersonSuperHeroes)
             //    .WithOne(category=>category.Category)
             //    .HasForeignKey(categoryId => categoryId.Id);
+
             //то же самое внизу, только переписанное в более подходящий вид
             //modelBuilder.Entity<Category>(category =>
             //{

@@ -43,10 +43,10 @@ namespace SuperHero1._1.Controllers
             return Ok();
         }
 
-        [HttpPut("{categoryId:long}/")]
-        public async Task<ActionResult<CategoryResponseModel>> UpdateCategory([FromRoute] long categoryId, [FromBody] CategoryUpdateRequestModel categoryUpdateModel)
+        [HttpPut("{categoryId:int}/")]
+        public async Task<ActionResult<CategoryResponseModel>> UpdateCategory([FromRoute] int categoryId, [FromBody] CategoryUpdateRequestModel categoryUpdateModel)
         {
-            return new OkObjectResult(await _categoryService.UpdateCategory(categoryUpdateModel));
+            return new OkObjectResult(await _categoryService.UpdateCategory(categoryId, categoryUpdateModel));
         }
 
         [HttpDelete("{categoryId:long}")]
